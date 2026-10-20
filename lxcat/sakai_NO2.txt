@@ -1,0 +1,449 @@
+From: Y. Sakai, T. Okumura, and H. Tagashira, Aust. J. Phys. 48, 419 (1995)
+
+RECOMMENDED REFERENCE FORMAT
+- Hayashi database, www.lxcat.net, retrieved on September 23, 2026.
+
+CROSS SECTION DATA FORMAT
+In downloaded files, each collision process is defined by a block consisting of
+1st line
+Keyword in capitals indicating the type of the collision. Possible collision types are elastic, effective, excitation,
+ionization, or attachment (capital letters required, key words are case sensitive), where "elastic" is used to denote
+the elastic momentum transfer cross section and where "effective" denotes the total momentum transfer cross section (sum
+of elastic momentum transfer and total inelastic cross sections).  The latter is useful for solving the Boltzmann
+equation in the 2-term approximation.
+2nd line
+Name of the target particle species. This name is a character string, freely chosen by the user, e.g. "Ar". Optionally
+for excitation processes, the name of the corresponding excited state can be specified on the same line, separated from
+the first name either by arrow "->" (dash + greater than) or by double-head arrow "<->" (less than + dash +
+greater than), e.g. "Ar -> Ar*" and "Ar <-> Ar*", respectively. In the later case BOLSIG+ will automatically
+define the inverse superelastic process, constructing the superelastic cross-section by detailed balancing, and
+considering the indicated excited state as the target. In this case, the ratio of statistical weights must be input in
+the 3rd line (see below).
+3rd line
+For elastic and effective collisions, the ratio of the electron mass to the target particle mass. For excitation or
+ionization collisions, the electron energy loss (nominally the threshold energy) in eV. For attachment, the 3rd line is
+missing. In case of an excitation process where an excited state has been indicated on the 2nd line using double-head
+arrow "<->", the 3rd line must specify also ratio of the statistical weights of the final state to the initial state
+as the second parameter in 3rd line; this is needed by BOLSIG+ to calculate the de-excitation cross-section. The
+statistical weight ratio, if given, will also be used by the automatic superelastics option in BOLSIG+. If this ratio is
+not provided then BOLSIG+ will assume it unity.
+from 4th line (optionally)
+User comments and reference information, maximum 100 lines. The only constraint on format is that these comment lines
+must not start with a number.
+Finally
+Table of the cross section as a function of energy. The table starts and ends by a line of dashes "------" (at least 5),
+and has otherwise two numbers per line: the energy in eV and the cross section in m2.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DATABASE:         none
+PERMLINK:         www.lxcat.net/Hayashi
+DESCRIPTION:      These data sets were derived by comparing calculated swarm parameters, using as input the cross
+                  sections sets in this database, with measurements.
+CONTACT:          leanne.pitchford@@laplace.univ-tlse.fr
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+************************************************************************************************************************
+
+COMMENT: M. Hayashi, personal communication to the JILA Atomic Collisions
+          Data Center, 1987.
+
+********************************************************** NO2 **********************************************************
+
+ATTACHMENT
+N2O -> N2O^-
+SPECIES: e / NO2
+PROCESS: E + NO2 -> N2O2-, Attachment
+PARAM.:  E = 0 eV, complete set
+COMMENT: attachment (qa).
+UPDATED: 2018-08-31 19:53:54
+COLUMNS: Energy (eV) | Cross section (m2)
+-----------------------------
+ 31.52795209	9.92e-20
+ 31.80192639	9.71e-20
+ 32.00032158	9.45e-20
+ 32.24831556	9.25e-20
+ 32.61440192	8.94e-20
+ 32.49630954	9.12e-20
+ 32.74430352	8.61e-20
+ 32.49630954	8.75e-20
+ 32.90963285	8.24e-20
+ 32.82696819	8.41e-20
+ 33.11038988	7.90e-20
+ 32.82696819	8.07e-20
+ 33.26784638	7.64e-20
+ 33.4331757	    7.39e-20
+ 33.59850502	7.14e-20
+ 33.71974652	6.90e-20
+ 33.90160877	6.66e-20
+ 34.10236581	6.28e-20
+ 33.98427343	6.48e-20
+ 34.23226741	5.94e-20
+ 33.98427343	6.09e-20
+ 34.39759674	5.57e-20
+ 34.31493208	5.75e-20
+ 34.56292606	5.34e-20
+ 34.91011763	5.16e-20
+ 35.48726726	4.81e-20
+ 35.14157868	5.02e-20
+ 36.62954257	4.80e-20
+ 37.12553053	4.98e-20
+ 37.55066307	5.20e-20
+ 37.70418316	5.39e-20
+ 37.95217714	5.63e-20
+ 38.16474341	5.89e-20
+ 38.33007273	6.18e-20
+ 38.50327488	6.45e-20
+ 38.61349442	6.64e-20
+ 38.57216209	6.81e-20
+ 38.86148841	7.04e-20
+ 38.81188961	7.24e-20
+ 39.01028479	7.45e-20
+ 39.30787757	7.66e-20
+ 39.44014103	7.82e-20
+ 39.44014103	7.98e-20
+ 39.44014103	8.13e-20
+ 39.52280569	8.30e-20
+ 39.52280569	8.46e-20
+ 39.47320689	8.62e-20
+ 39.60547035	8.79e-20
+ 39.56413802	8.96e-20
+ 40.41558402	9.06e-20
+ 41.23514509	8.80e-20
+ 42.07038023	8.64e-20
+ 42.80183723	8.74e-20
+ 43.40804474	8.89e-20
+ 44.40002066	9.07e-20
+ 45.22666727	9.23e-20
+ 46.13597853	9.37e-20
+ 46.96262514	9.51e-20
+ 47.62394242	9.67e-20
+ 48.03726573	9.82e-20
+ 48.69858301	9.97e-20
+ 35.96153846	4.68e-20
+ 40.92451923	8.96e-20
+-----------------------------
+ELASTIC
+NO2
+ 1.245900e-5
+SPECIES: e / NO2
+PROCESS: E + NO2 -> E + NO2, Elastic
+PARAM.:  m/M = 0.000012459, complete set
+UPDATED: 2010-05-21 15:31:00
+COLUMNS: Energy (eV) | Cross section (m2)
+-----------------------------
+ 1.1188499	    2.24137E-18
+ 2.438550974	2.29245E-18
+ 3.758271698	2.3423E-18
+ 5.078012073	2.39093E-18
+ 6.397772098	2.43832E-18
+ 7.717571425	2.48326E-18
+ 9.037390402	2.52697E-18
+ 10.35718973	2.57191E-18
+ 11.67694975	2.61931E-18
+ 12.99651327	2.67898E-18
+ 14.31609644	2.73743E-18
+ 15.63577787	2.78974E-18
+ 16.95545929	2.84205E-18
+ 18.27519966	2.89067E-18
+ 19.59497934	2.93684E-18
+ 20.91481797	2.97932E-18
+ 22.23463695	3.02303E-18
+ 23.55457383	3.05938E-18
+ 24.87451071	3.09572E-18
+ 26.19448689	3.1296E-18
+ 27.51448273	3.16226E-18
+ 28.83451786	3.19246E-18
+ 30.15461195	3.21898E-18
+ 31.47470604	3.24549E-18
+ 32.79480012	3.27201E-18
+ 34.11493351	3.29607E-18
+ 35.43512585	3.31645E-18
+ 36.75533784	3.3356E-18
+ 38.07549088	3.35843E-18
+ 39.39562427	3.38249E-18
+ 40.71577731	3.40532E-18
+ 42.03595	    3.42692E-18
+ 43.35616199	3.44607E-18
+ 44.67637398	3.46522E-18
+ 45.99658597	3.48437E-18
+ 47.31683727	3.50106E-18
+ 48.63708856	3.51775E-18
+ 49.9573595	    3.53321E-18
+ 51.27763045	3.54868E-18
+ 52.59794069	3.56168E-18
+ 53.91823129	3.57592E-18
+ 55.23848258	3.59261E-18
+ 56.55875352	3.60807E-18
+ 57.87902447	3.62353E-18
+ 59.2084912	    3.6374E-18
+ 60.51960565	3.652E-18
+ 61.8398373	    3.66992E-18
+ 63.16004929	3.68907E-18
+ 64.48032023	3.70453E-18
+ 65.80057152	3.72123E-18
+ 67.12086212	3.73546E-18
+ 68.44119201	3.74724E-18
+ 69.79685385	3.76146E-18
+ 71.0817732	    3.77571E-18
+ 72.4021424	    3.78503E-18
+ 73.72245264	3.79804E-18
+ 75.04276289	3.81105E-18
+ 76.36311243	3.8216E-18
+ 77.64801213	3.83707E-18
+ 79.00361502	3.85498E-18
+ 80.32376806	3.87781E-18
+ 81.64386215	3.90433E-18
+ 82.96383833	3.93821E-18
+ 84.28385381	3.96964E-18
+ 85.60383	    4.00353E-18
+ 86.92364897	4.04724E-18
+ 88.24321249	4.10692E-18
+ 89.5624616	    4.18624E-18
+ 90.88141595	4.28399E-18
+ 92.20009519	4.39894E-18
+ 93.51873512	4.51634E-18
+ 94.83737506	4.63374E-18
+ 96.15593639	4.75606E-18
+ 97.47451738	4.87714E-18
+ 98.79313766	4.99577E-18
+ 100.1117776	5.11317E-18
+ 101.4304568	5.22812E-18
+ 102.7490575	5.34797E-18
+ 104.0676974	5.46537E-18
+ 104.9743148	5.54281E-18
+-----------------------------
+EXCITATION
+NO2 -> NO2(V2)(0.073eV)
+ 7.300000e-2
+SPECIES: e / N2O
+PROCESS: E + N2O -> E + N2O(V2)(0.073eV), Excitation
+PARAM.:  E = 0.073 eV, complete set
+COMMENT: Vibrational Excitation (qv2).
+UPDATED: 2018-08-31 19:53:54
+COLUMNS: Energy (eV) | Cross section (m2)
+-----------------------------
+ 1.001073873	6.34e-20
+ 0.984540941	6.49e-20
+ 0.852277484	6.66e-20
+ 0.852277484	6.81e-20
+ 0.753079892	6.98e-20
+ 0.753079892	7.14e-20
+ 0.670415231	7.30e-20
+ 0.50508591	    7.46e-20
+ 0.50508591	    7.62e-20
+ 0.50508591	    7.77e-20
+ 0.422421249	7.93e-20
+ 0.422421249	8.06e-20
+ 0.257091928	8.19e-20
+ 0.257091928	8.40e-20
+ 1.827720479	5.32e-20
+ 1.9930498	    5.11e-20
+ 2.185934008	4.91e-20
+ 2.382754628	4.33e-20
+ 2.323708442	4.54e-20
+ 2.373307238	4.71e-20
+ 2.836229337	4.13e-20
+ 3.811672332	3.96e-20
+ 5.134306901	3.90e-20
+ 6.45694147	    3.96e-20
+ 7.779576038	4.06e-20
+ 9.102210607	4.20e-20
+ 10.42484518	4.35e-20
+ 11.74747974	4.49e-20
+ 13.07011431	4.62e-20
+ 14.22741956	4.78e-20
+ 15.30206015	4.92e-20
+ 16.4593654	    5.08e-20
+ 17.61667064	5.24e-20
+ 18.85664055	5.38e-20
+ 20.17927512	5.54e-20
+ 21.50190969	5.70e-20
+ 22.7418796	    5.86e-20
+ 23.98184951	6.00e-20
+ 25.30448408	6.17e-20
+ 26.62711864	6.33e-20
+ 27.94975321	6.48e-20
+ 29.18972312	6.64e-20
+ 30.34702837	6.79e-20
+ 31.42166896	6.95e-20
+ 32.49630954	7.10e-20
+ 33.88507584	7.25e-20
+ 34.97624936	7.39e-20
+ 36.21621927	7.54e-20
+ 37.53885384	7.70e-20
+ 38.69615908	7.83e-20
+ 40.26678764	8.03e-20
+ 41.50675754	8.19e-20
+ 42.74672745	8.34e-20
+ 43.9040327	    8.48e-20
+ 45.14400261	8.64e-20
+ 46.46663718	8.80e-20
+ 47.78927175	8.95e-20
+ 49.18079353	9.07e-20
+ 50.5998702	    9.28e-20
+ 51.92250477	9.44e-20
+ 53.24513934	9.59e-20
+ 54.40244459	9.73e-20
+ 55.28420097	9.92e-20
+ 1.220673077	6.18e-20
+ 1.220673077	5.95e-20
+ 1.380769231	5.71e-20
+ 1.380769231	5.48e-20
+-----------------------------
+
+EXCITATION
+N2O -> N2O(e1)(4.05eV)
+ 4.050000e+0
+SPECIES: e / N2O
+PROCESS: E + N2O -> E + N2O(e1)(4.05eV), Excitation
+PARAM.:  E = 4.05 eV, complete set
+COMMENT: Electronic Excitation (qe1).
+UPDATED: 2018-08-31 19:52:54
+COLUMNS: Energy (eV) | Cross section (m2)
+-----------------------------
+ 48.32659204	9.87e-20
+ 48.88753081	9.38e-20
+ 48.61591835	9.55e-20
+ 49.27723564	9.18e-20
+ 49.44256496	8.84e-20
+ 49.83226978	8.60e-20
+ 50.1865469	    8.34e-20
+ 50.54082402	8.06e-20
+ 50.68253486	7.87e-20
+ 51.01319351	7.65e-20
+ 51.37140704	7.40e-20
+ 51.70206568	7.21e-20
+ 52.03272432	7.02e-20
+ 52.36338296	6.84e-20
+ 52.6940416	    6.65e-20
+ 52.99714536	6.47e-20
+ 53.327804	    6.28e-20
+ 53.68601753	6.07e-20
+ 54.01667617	5.88e-20
+ 54.34733482	5.68e-20
+ 54.67799346	5.50e-20
+ 54.89843255	5.34e-20
+ 55.22909119	5.18e-20
+ 55.55974984	5.03e-20
+ 55.90694141	4.86e-20
+ 56.38639644	4.66e-20
+ 56.94143059	4.43e-20
+ 57.46103703	4.23e-20
+ 57.95702499	4.03e-20
+ 58.64840215	3.67e-20
+ 58.3703483	    3.86e-20
+ 59.58669973	3.48e-20
+ 60.10630617	3.28e-20
+ 60.57473924	3.10e-20
+ 61.26361142	2.95e-20
+ 61.8304548	    2.78e-20
+ 62.25558734	2.63e-20
+ 63.08223395	2.47e-20
+ 63.99154521	2.30e-20
+ 65.14885046	2.14e-20
+ 66.47148503	2.01e-20
+ 67.7941196	    1.90e-20
+ 69.15218188	1.81e-20
+ 70.43938874	1.76e-20
+ 71.76202331	1.75e-20
+ 73.08465787	1.75e-20
+ 74.40729244	1.77e-20
+ 75.72992701	1.81e-20
+ 77.05256158	1.85e-20
+ 78.37519615	1.90e-20
+ 79.69783072	1.96e-20
+ 81.02046529	2.01e-20
+ 82.34309986	2.07e-20
+ 83.66573442	2.13e-20
+ 84.98836899	2.18e-20
+ 86.31100356	2.24e-20
+ 87.63363813	2.31e-20
+ 88.9562727	    2.37e-20
+ 90.27890727	2.44e-20
+ 91.60154184	2.51e-20
+ 92.92417641	2.60e-20
+ 94.24681098	2.69e-20
+ 95.56944554	2.77e-20
+ 96.89208011	2.86e-20
+ 98.21471468	2.94e-20
+ 99.53734925	3.02e-20
+ 100.8599838	3.11e-20
+ 102.1826184	3.19e-20
+ 103.505253	    3.26e-20
+ 104.7452229	3.33e-20
+ 49.24951923	8.98e-20
+ 48.28894231	9.68e-20
+-----------------------------
+
+IONIZATION
+NO2 -> NO2^+
+ 1.289000e+1
+SPECIES: e / NO2
+PROCESS: E + NO2 -> E + E + N2O+, Ionization
+PARAM.:  E = 12.89 eV, complete set
+COMMENT: Collisional Ionization (qi).
+UPDATED: 2018-08-31 19:54:21
+COLUMNS: Energy (eV) | Cross section (m2)
+-----------------------------
+ 56.42182415	    9.91e-20
+ 56.60132456	    9.70e-20
+ 56.79971975	    9.17e-20
+ 56.71705508	    9.40e-20
+ 56.6895002	        9.53e-20
+ 57.09731252	    8.95e-20
+ 57.4846555	        8.74e-20
+ 57.54370169	    8.55e-20
+ 57.75862981	    8.39e-20
+ 57.87436033	    8.20e-20
+ 58.03968965	    8.05e-20
+ 58.28768364	    7.82e-20
+ 58.61834228	    7.54e-20
+ 58.94900092	    7.27e-20
+ 59.30327804	    7.03e-20
+ 59.36232422	    6.85e-20
+ 59.69298286	    6.65e-20
+ 60.08268769	    6.40e-20
+ 60.43696481	    6.17e-20
+ 60.68495879	    5.99e-20
+ 61.09828209	    5.81e-20
+ 61.59427006	    5.64e-20
+ 62.09025802	    5.46e-20
+ 62.58624598	    5.29e-20
+ 63.16489861	    5.12e-20
+ 63.74355123	    4.94e-20
+ 64.57019784	    4.78e-20
+ 65.23151512	    4.62e-20
+ 66.05816173	    4.46e-20
+ 66.88480833	    4.31e-20
+ 67.71145494	    4.16e-20
+ 68.6207662	        4.00e-20
+ 69.53007747	    3.88e-20
+ 70.60471806	    3.70e-20
+ 71.76202331	    3.55e-20
+ 72.83666389	    3.39e-20
+ 74.0766338	        3.24e-20
+ 75.39926837	    3.15e-20
+ 76.72190294	    3.08e-20
+ 78.04453751	    3.02e-20
+ 79.36717208	    3.01e-20
+ 80.68980664	    2.99e-20
+ 82.01244121	    2.98e-20
+ 83.33507578	    2.99e-20
+ 84.65771035	    3.02e-20
+ 85.98034492	    3.08e-20
+ 87.30297949	    3.16e-20
+ 88.56656787	    3.23e-20
+ 89.94824863	    3.31e-20
+ 91.2708832	        3.39e-20
+ 92.59351776	    3.48e-20
+ 93.91615233	    3.58e-20
+ 95.2387869	        3.70e-20
+ 96.56142147	    3.80e-20
+ 97.88405604	    3.90e-20
+ 99.20669061	    4.00e-20
+ 100.5293252	    4.09e-20
+ 101.8519597	    4.19e-20
+ 103.1745943	    4.29e-20
+ 104.0012409	    4.34e-20
+-----------------------------
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
