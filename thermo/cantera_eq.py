@@ -147,8 +147,8 @@ def get_mu0(T, P, species): # relies on many .yaml and partition functions
                     "Add it to mu0_stat.py or check config.SPECIES_DENSITY_MAP."
                 )
 
-        mu = val + R*T*np.log(phi*P/P0)
-        mu0.append(mu)  # already in J/mol
+            mu = val + R*T*np.log(phi*P/P0)
+            mu0.append(mu)  # already in J/mol
                 
    
     return np.array(mu0)

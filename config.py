@@ -6,15 +6,15 @@ REFPRESSURE = 1.0e5        # Pa  (standard state reference)
 TEMPERATURE = np.arange(310, 10000, 1000)  # stay within critical temperature of CO2 (304.13 K) to avoid phase change; units: K
 
 # CANTERA INPUTS
-SPECIES_NAME = "CO2:1"
-SPECIS_WEIGHT = 0.028965
+SPECIES_NAME = "co2"
+SPECIS_WEIGHT = 0.04401 # kg/mol
 
 _HOME     = "/Users/zoellewong/Desktop/pyfiles/research/gibbsFreeEnergy/"
-# _GRI30PLASMA_YAML = Path(_HOME) / "cantera" / "data" / "gri30_plasma.yaml"  # charged species: O+, e-
+_GRI30PLASMA_YAML = _HOME + "/cantera/" + "data" + "/gri30_plasma.yaml"  # charged species: O+, e-
 # _PLASMA_YAML = Path(_HOME) / "cantera" / "data" / "plasma.yaml"  # charged species: O+, e-
-_AIR_YAML   =  _HOME + "/cantera/" + "data" + "/gri30.yaml"
+# _AIR_YAML   =  _HOME + "/cantera/" + "data" + "/gri30.yaml"
 
-CANTERA_YAML = _AIR_YAML  # neutral species: CO2, CO, O
+CANTERA_YAML = _GRI30PLASMA_YAML  # neutral species: CO2, CO, O
 
 
 #VCS_INITIAL_GUESS = {"CO2": 1.0, "O+": 1e-10, "C+": 1e-10, "e-": 2e-10, "O++": 1e-10, "C++": 1e-10}   # "equilibrium" or "initial" (initial guess from config.py)
