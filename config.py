@@ -116,8 +116,8 @@ TXTNAME_COMP = "air_equilibrium_mole_fractions.txt" #
 
 # FIGURE LABELS + TITLES
 LINE_LABELS = {
-            "N2":  500,
-            "O2":  500,
+            "N2":  1000,
+            "O2":  1000,
             "Ar":  500,
             "CO2": 500,
             "CO":  2000,
