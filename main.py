@@ -105,14 +105,5 @@ if config.SAVE_RESULTS == True:
     make_plots(T_values, Xeq, Xeq_ct, rhoarray, rho_ct, EN_balance_values, species, markers, colors, OUTDIR)
     print(f"Saved figures to OUTDIR: {config.FIGNAME_EQUILB_COMP}, {config.FIGNAME_DENSITY}")
     
-# # def compute_density():
-# #     ...
-
-# # def make_plots():
-# #     ...
-
-# # def save_results():
-# #     ...
-
 # # if __name__ == "__main__":
 # #     main()

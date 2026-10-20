@@ -114,19 +114,15 @@ def make_plots(T_values, Xeq, Xeq_ct, rhoarray, rho_ct, EN_balance_values, speci
     fig1, ax1 = make_single_column_figure()
     fig3, ax3 = make_single_column_figure()
 
-    df = pd.read_csv("output/co2_equilibrium_mole_fractions.txt", delim_whitespace=True)
+    df = pd.read_csv("output/" + config.TXTNAME_COMP, delim_whitespace=True)
 
     T = df["T"]
-
-    # for sp, marker, c in zip(df.columns[1:], markers, colors):  # skip T
-    #    print(f"Plotting species: {sp} with marker {marker} and color {c}")
-    #    ax1.semilogy(T,  df[sp], label=sp, marker=marker, color = c)
 
     ax1.set_ylabel("Mole fraction")
     ax1.set_ylim(9e-5, 1.4)
     ax1.set_xlim(300, 30000)
     fig1.suptitle(
-        f"CO$_2$ equilibrium Composition at 1 bar",
+        config.FIGNAME_EQUILB_COMP_TITLE,
         #x=(0.12 + 0.92) / 2,
         x = 0.5,
         y = 0.95,
@@ -135,63 +131,13 @@ def make_plots(T_values, Xeq, Xeq_ct, rhoarray, rho_ct, EN_balance_values, speci
         fontsize=10
     )
     ax1.set_xlabel("Temperature (K)")
-    # Build a clean legend: one entry per species (marker shape), plus solver color key
-    handles = []
-    # for m, c, sp in zip(markers, colors, species):
-    #     handles.append(mlines.Line2D([], [], color=_resolve_color(c), marker=m, linestyle="None", markersize=5, label=f"{sp} (VCS)"))
 
     # Adjust these temperatures to position labels without overlap.
-    # label_T = {
-    #     "CO2": 1000,
-    #     "CO": 8000,
-    #     "O": 9500,
-    #     "O2": 4500,
-    #     "C": 10000,
-    #     "C+": 19500,
-    #     "O+": 11500,
-    #     "C++": 23500,
-    #     "O++": 25500,
-    #     "e-": 22000,
-    # }
+    label_T = config.LINE_LABELS # lines are anchored at these temperatures for labeling
+    display_labels = config.DISPLAY_LABELS
 
-    # display_labels = {
-    # "CO2": r"$\mathrm{CO_2}$",
-    # "O2": r"$\mathrm{O_2}$",
-    # "C+": r"$\mathrm{C^{+}}$",
-    # "C++": r"$\mathrm{C^{2+}}$",
-    # "O+": r"$\mathrm{O^{+}}$",
-    # "O++": r"$\mathrm{O^{2+}}$",
-    # "e-": r"$\mathrm{e^{-}}$",
-    # }
-
-    label_T = {
-            "N2":  500,
-            "O2":  500,
-            "Ar":  500,
-            "CO2": 500,
-            "CO":  2000,
-            "NO":  1100,
-            "NO2": 1000,
-            "N2O": 3000,
-            "O":   4000,
-            "N":   4000,
-    }
-
-    display_labels = {
-    "N2": r"$\mathrm{N_2}$",
-    "O2": r"$\mathrm{O_2}$",
-    "Ar": r"$\mathrm{Ar}$",
-    "CO2": r"$\mathrm{CO_2}$",
-    "CO": r"$\mathrm{CO}$",
-    "NO": r"$\mathrm{NO}$",
-    "NO2": r"$\mathrm{NO_2}$",
-    "N2O": r"$\mathrm{N_2O}$",
-    "O": r"$\mathrm{O}$",
-    "N": r"$\mathrm{N}$",
-    }
-
-    
     for m, c, sp in zip(markers, colors, species):
+        
         y = df[sp]
         color = c
 

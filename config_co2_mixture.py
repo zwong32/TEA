@@ -3,11 +3,20 @@ import numpy as np
 PRESSURE = 0.1e6  # match jia wei pressure; crossectional data should be independent of pressure
 REFPRESSURE = 1.0e5        # Pa  (standard state reference)
 
-TEMPERATURE = np.arange(310, 10000, 1000)  # stay within critical temperature of CO2 (304.13 K) to avoid phase change; units: K
+TEMPERATURE = np.arange(310, 30000, 1000)  # stay within critical temperature of CO2 (304.13 K) to avoid phase change; units: K
 
 # CANTERA INPUTS
-SPECIES_NAME = "CO2:1"
-SPECIS_WEIGHT = 0.028965
+SPECIES_NAME = "co2"
+SPECIS_WEIGHT = 0.04401 # kg/mol
+
+_HOME     = "/Users/zoellewong/Desktop/pyfiles/research/gibbsFreeEnergy/"
+_GRI30PLASMA_YAML = _HOME + "/cantera/" + "data" + "/gri30_plasma.yaml"  # charged species: O+, e-
+# _PLASMA_YAML = Path(_HOME) / "cantera" / "data" / "plasma.yaml"  # charged species: O+, e-
+# _AIR_YAML   =  _HOME + "/cantera/" + "data" + "/gri30.yaml"
+
+CANTERA_YAML = _GRI30PLASMA_YAML  # neutral species: CO2, CO, O
+
+
 #VCS_INITIAL_GUESS = {"CO2": 1.0, "O+": 1e-10, "C+": 1e-10, "e-": 2e-10, "O++": 1e-10, "C++": 1e-10}   # "equilibrium" or "initial" (initial guess from config.py)
 VCS_INITIAL_GUESS = {
     
@@ -157,3 +166,29 @@ FIGNAME_EN_BALANCE = "co2_equilibrium_EN_balance.png" #
 SAVE_RESULTS = True # true = yes; false = no
 TXTNAME_DENSITY = "co2_equilibrium_density_1bar.txt" #
 TXTNAME_COMP = "co2_equilibrium_mole_fractions.txt" #
+
+# FIGURE LABELS + TITLES
+LINE_LABELS = {
+        "CO2": 1000,
+        "CO": 8000,
+        "O": 9500,
+        "O2": 4500,
+        "C": 10000,
+        "C+": 19500,
+        "O+": 11500,
+        "C++": 23500,
+        "O++": 25500,
+        "e-": 22000,
+    }
+
+DISPLAY_LABELS = {
+    "CO2": r"$\mathrm{CO_2}$",
+    "O2": r"$\mathrm{O_2}$",
+    "C+": r"$\mathrm{C^{+}}$",
+    "C++": r"$\mathrm{C^{2+}}$",
+    "O+": r"$\mathrm{O^{+}}$",
+    "O++": r"$\mathrm{O^{2+}}$",
+    "e-": r"$\mathrm{e^{-}}$",
+    }
+
+FIGNAME_EQUILB_COMP_TITLE = f"CO$_2$ equilibrium Composition at 1 bar"
