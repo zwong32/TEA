@@ -14,7 +14,7 @@ R = ct.gas_constant / 1000.0  # J/mol/K  (Cantera uses J/kmol/K)
 # need to improve this one
 _HOME     = "/Users/zoellewong/Desktop/pyfiles/research/gibbsFreeEnergy/"
 _GRI30PLASMA_YAML = Path(_HOME) / "cantera" / "data" / "gri30_plasma.yaml"  # charged species: O+, e-
-_PLASMA_YAML = Path(_HOME) / "cantera" / "data" / "plasma.yaml"  # charged species: O+, e-
+#_PLASMA_YAML = Path(_HOME) / "cantera" / "data" / "plasma.yaml"  # charged species goes up to 6000K :
 _AIR_YAML   =  Path(_HOME) / "cantera" / "data" / "gri30.yaml"
 
 # --- Cantera solution objects ---
@@ -24,7 +24,7 @@ _AIR_YAML   =  Path(_HOME) / "cantera" / "data" / "gri30.yaml"
 # cantera objects
 _gas = ct.Solution(config.CANTERA_YAML)  # neutral species: CO2, CO, O
 _gas_gri30plasma = ct.Solution(_GRI30PLASMA_YAML)  # neutral species: CO2, CO, O
-_gas_plasma = ct.Solution(_PLASMA_YAML)  # charged species: O+, e-
+#_gas_plasma = ct.Solution(_PLASMA_YAML)  # charged species: O+, e-
 _gas_ct = ct.Solution(_AIR_YAML)  # neutral species: CO2, CO, O # same as _gas_gri30plasma
 
 def get_mole_fractions(gas, species):
@@ -48,22 +48,6 @@ def cantera_equilibrium(T, P, species):
     # _gas_gri30plasma was _gas_ct which was based air_yaml then gri30_plasma.yaml; but saw a duplication of thermo states 
     init_comp = config.VCS_INITIAL_GUESS  # initial guess for VCS solver; must be charge-neutral
 
-    # _gas_ct.TPX = T, P, init_comp  # seed charge-neutral ion pair so VCS can explore ion DOF
-    # _gas_ct.equilibrate("TP", solver="vcs")
-
-    # _gas_gri30plasma.TPX = T, P, config.VCS_INITIAL_GUESS  # seed charge-neutral ion pair so VCS can explore ion DOF
-    # _gas_gri30plasma.equilibrate("TP", solver="vcs")
-
-    # x = np.zeros(len(species))
-    # for i, sp in enumerate(species):
-    #     try:
-    #         idx = _gas_gri30plasma.species_index(sp)
-    #         x[i] = _gas_gri30plasma.X[idx]
-    #     except ValueError:
-    #         x[i] = 0.0   # species not in gri30_plasma.yaml - higher order ion_yaml_path = os.path.join(_HOME, "cantera", "data", "plasma.yaml")  # charged species: O+, e-
-
-    #_YAML_PATH = _HOME + "cantera/data/gri30_plasma.yaml"  # charged species: O+, e-s
-
     _gas.TPX = T, P, init_comp  # seed charge-neutral ion pair so VCS can explore ion DOF
     _gas.equilibrate("TP", solver="vcs")
     x = get_mole_fractions(_gas, species)
@@ -72,6 +56,7 @@ def cantera_equilibrium(T, P, species):
     Z, phi = rho_pr(T) 
     rho = rho/Z  # correct for real-gas behavior using Peng-Robinson EOS; matches w/ nasa-nist DB within 3% :(
 
+    
     return x, rho
 
 def coolprop_density(T, P): # for debugging bc cantera can only handle ideal gas behavior
@@ -107,6 +92,8 @@ def get_mu0(T, P, species): # relies on many .yaml and partition functions
       O+, e-              → plasma.yaml (Cantera NASA-7)
       O2+, C, C+, C2+     → partition functions  (mu0_stat.py)
       C2, C3, C2O, O-,
+      ["O+",    "C+",     "C",     "C-",    "O-",    "O++",   "C++"] → check w/ minsplasmacalc
+
       C-, C2-             → NIST Shomate polynomials (mu0_stat.py)
 
     Pressure-independent: mu(T,P,x) = mu0(T) + R*T*ln(x*P/P0).
@@ -116,9 +103,10 @@ def get_mu0(T, P, species): # relies on many .yaml and partition functions
     from thermo.mu0_stat import get_mu0_stat  # local import avoids circular dependency at module level
 
     # Species handled by Cantera
-    _GRI_SPECIES    = {"CO2", "CO", "O", "O2"}  # gri30.yaml  (NASA-7 polynomials)
-    _PLASMA_SPECIES = {"O+", "e-"}              # plasma.yaml (NASA-7 polynomials)
-
+    #_GRI_SPECIES    = {"CO2", "CO", "O", "O2"}  # gri30.yaml  (NASA-7 polynomials)
+    #_PLASMA_SPECIES = {"O+", "O-", "C+", "C-", "e-"}              # plasma.yaml (NASA-9 polynomials)
+    _GRI_SPECIES    = {"CO2", "CO", "O", "O2", "O+", "C", "O-", "C+", "C-", "e-"}
+    _TWICE_IONIZED_SPECIES = {"O++", "C++"}  # partition functions (mu0_stat.py)
     mu0 = []
 
     for sp in species:
@@ -132,27 +120,75 @@ def get_mu0(T, P, species): # relies on many .yaml and partition functions
             mu0.append(mu)  
         # mu0.append(_gas_gri30plasma.chemical_potentials[_gas_gri30plasma.species_index(sp)] / 1000.0)
 
-        elif sp in _PLASMA_SPECIES:
-            # plasma.yaml needs a non-zero composition to avoid singular matrix
-            _gas_plasma.TPX = T, P0, f"{sp}:1" # related to plasma.yaml
-            # _gas_plasma.TPX = T, P0, f"{sp}:1" #"O+:0.5, e-:0.5"
-            mu0.append(_gas_plasma.chemical_potentials[_gas_plasma.species_index(sp)] / 1000.0)
+        # elif sp in _PLASMA_SPECIES:
+        #     # plasma.yaml needs a non-zero composition to avoid singular matrix
+        #     _gas_plasma.TPX = T, P0, f"{sp}:1" # related to plasma.yaml
+        #     # _gas_plasma.TPX = T, P0, f"{sp}:1" #"O+:0.5, e-:0.5"
+        #     mu0.append(_gas_plasma.chemical_potentials[_gas_plasma.species_index(sp)] / 1000.0)
 
-        else:
+        elif sp in _TWICE_IONIZED_SPECIES:
             # Partition-function / Shomate route — mu0_stat returns J/mol directly
-            val = get_mu0_stat(sp, T)
-            if val is None:
-                raise KeyError(
-                    f"get_mu0: species '{sp}' not found in any source. "
-                    "Add it to mu0_stat.py or check config.SPECIES_DENSITY_MAP."
-                )
+            # val = get_mu0_stat(sp, T)
+            # if val is None:
+            #     raise KeyError(
+            #         f"get_mu0: species '{sp}' not found in any source. "
+            #         "Add it to mu0_stat.py or check config.SPECIES_DENSITY_MAP."
+            #     )
 
-            mu = val + R*T*np.log(phi*P/P0)
-            mu0.append(mu)  # already in J/mol
-                
-   
+            # mu = val + R*T*np.log(phi*P/P0)
+            # mu0.append(mu)  # already in J/mol
+            mpc_sp = mpc.species.from_name(sp)
+            V0 = co.Boltzmann * T / P0  # m³ per particle
+
+            Ztr  = mpc_sp.translational_partition_function(T) #Ztr
+            Zint = mpc_sp.internal_partition_function(T, 0) # Zint = Zel*Zvib*Zrot
+            Ztot = mpc_sp.total_partition_function(V0, T, 0) # Ztot = Ztr*Zint
+
+            # val = E0_molar - R*T*np.log(Ztot) + R*T*np.log(P/P0) # J/mol
+            # E0_molar = mpc_sp.ground_state_energy_molar() # J/mol
+            E0_molar = get_E0_molar(sp) # J/mol
+            val = E0_molar - R*T*np.log(Ztot) # J/mol
+            mu0.append(val)  # already in J/mol
+
     return np.array(mu0)
 
+
+# Populate with verified reference energies, all in J/mol.
+EV_TO_J_MOL = co.elementary_charge * co.Avogadro
+
+I1_O_eV = 13.618055
+I2_O_eV = 35.116
+I1_C_eV = 11.2603
+I2_C_eV = 24.383
+
+# J/mol: aligned to gri30.yaml at 298.15 K,
+# using the NIST fine-structure levels listed above.
+E0_C = 710139.9  # J/mol
+E0_O = 242448.3  # J/mol
+
+EA_C_eV = 1.262119
+EA_O_eV = 1.461112  # eV
+
+# Matching the bundled NASA electron convention:
+E0_e = -6197.392574 # from E0_e = -2.5 * R * 298.15  # J/mol
+
+E0_MOLAR = {
+   # "C":   E0_C,
+   # "C+":  E0_C + EV_TO_J_MOL * I1_C_eV - E0_e,
+    "C++": E0_C + EV_TO_J_MOL * (I1_C_eV + I2_C_eV) - 2*E0_e,
+   # "C-":  E0_C - EV_TO_J_MOL * EA_C_eV + E0_e,
+   # "O":   E0_O,
+   # "O-":  E0_O - EV_TO_J_MOL * EA_O_eV + E0_e,  # placeholder; O- EA unknown
+   # "O+":  E0_O + EV_TO_J_MOL * I1_O_eV - E0_e,
+    "O++": E0_O + EV_TO_J_MOL * (I1_O_eV + I2_O_eV) - 2*E0_e,
+}
+
+def get_E0_molar(sp):
+    """Return the species ground-state reference energy [J/mol]."""
+    return E0_MOLAR[sp]
+    
+    
+    
 def q_saha(nO, ntot, mu0, T):
     """
     Solve analytically for q = n[O+] = n[e-] from ionization equilibrium:
@@ -164,5 +200,3 @@ def q_saha(nO, ntot, mu0, T):
     xO  = np.clip(nO / ntot, 1e-300, None)
     lnq = dmu / (2.0 * R * T) + 0.5 * np.log(xO * P / P0) + 0.5 * np.log(ntot / (P / P0))
     return np.exp(np.clip(lnq, -700, 0))    # q always in (0, 1)
-
-
