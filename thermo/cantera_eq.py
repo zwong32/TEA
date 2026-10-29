@@ -105,7 +105,8 @@ def get_mu0(T, P, species): # relies on many .yaml and partition functions
     # Species handled by Cantera
     #_GRI_SPECIES    = {"CO2", "CO", "O", "O2"}  # gri30.yaml  (NASA-7 polynomials)
     #_PLASMA_SPECIES = {"O+", "O-", "C+", "C-", "e-"}              # plasma.yaml (NASA-9 polynomials)
-    _GRI_SPECIES    = {"CO2", "CO", "O", "O2", "O+", "C", "O-", "C+", "C-", "e-"}
+    _GRI_SPECIES    = {"CO2", "CO", "O", "O2", "C", "O+", "e-" } # gri30_plasma.yaml O+, e- are within gri30_plasma.yaml (NASA-7 or NASA-9 polynomials)
+    _FIRST_IONIZED_SPECIES = {"O+", "C+", "O-", "C+", "C-"}  # partition functions (mu0_stat.py)
     _TWICE_IONIZED_SPECIES = {"O++", "C++"}  # partition functions (mu0_stat.py)
     mu0 = []
 
@@ -125,6 +126,11 @@ def get_mu0(T, P, species): # relies on many .yaml and partition functions
         #     _gas_plasma.TPX = T, P0, f"{sp}:1" # related to plasma.yaml
         #     # _gas_plasma.TPX = T, P0, f"{sp}:1" #"O+:0.5, e-:0.5"
         #     mu0.append(_gas_plasma.chemical_potentials[_gas_plasma.species_index(sp)] / 1000.0)
+        elif sp in _FIRST_IONIZED_SPECIES:
+            # Partition-function / Shomate route — mu0_stat returns J/mol directly
+            val = get_mu0_stat(sp, T)
+            mu = val + R*T*np.log(phi*P/P0)
+            mu0.append(mu)  # already in J/mol
 
         elif sp in _TWICE_IONIZED_SPECIES:
             # Partition-function / Shomate route — mu0_stat returns J/mol directly
@@ -137,18 +143,22 @@ def get_mu0(T, P, species): # relies on many .yaml and partition functions
 
             # mu = val + R*T*np.log(phi*P/P0)
             # mu0.append(mu)  # already in J/mol
-            mpc_sp = mpc.species.from_name(sp)
-            V0 = co.Boltzmann * T / P0  # m³ per particle
+            # mpc_sp = mpc.species.from_name(sp)
+            # V0 = co.Boltzmann * T / P0  # m³ per particle
 
-            Ztr  = mpc_sp.translational_partition_function(T) #Ztr
-            Zint = mpc_sp.internal_partition_function(T, 0) # Zint = Zel*Zvib*Zrot
-            Ztot = mpc_sp.total_partition_function(V0, T, 0) # Ztot = Ztr*Zint
+            # Ztr  = mpc_sp.translational_partition_function(T) #Ztr
+            # Zint = mpc_sp.internal_partition_function(T, 0) # Zint = Zel*Zvib*Zrot
+            # Ztot = mpc_sp.total_partition_function(V0, T, 0) # Ztot = Ztr*Zint
 
-            # val = E0_molar - R*T*np.log(Ztot) + R*T*np.log(P/P0) # J/mol
-            # E0_molar = mpc_sp.ground_state_energy_molar() # J/mol
-            E0_molar = get_E0_molar(sp) # J/mol
-            val = E0_molar - R*T*np.log(Ztot) # J/mol
-            mu0.append(val)  # already in J/mol
+            # # val = E0_molar - R*T*np.log(Ztot) + R*T*np.log(P/P0) # J/mol
+            # # E0_molar = mpc_sp.ground_state_energy_molar() # J/mol
+            # E0_molar = get_E0_molar(sp) # J/mol
+            # val = E0_molar - R*T*np.log(Ztot) # J/mol
+            # mu0.append(val)  # already in J/mol
+
+            val = get_mu0_stat(sp, T)
+            mu = val + R*T*np.log(phi*P/P0)
+            mu0.append(mu)  # already in J/mol
 
     return np.array(mu0)
 
