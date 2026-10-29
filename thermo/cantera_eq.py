@@ -105,8 +105,8 @@ def get_mu0(T, P, species): # relies on many .yaml and partition functions
     # Species handled by Cantera
     #_GRI_SPECIES    = {"CO2", "CO", "O", "O2"}  # gri30.yaml  (NASA-7 polynomials)
     #_PLASMA_SPECIES = {"O+", "O-", "C+", "C-", "e-"}              # plasma.yaml (NASA-9 polynomials)
-    _GRI_SPECIES    = {"CO2", "CO", "O", "O2", "C", "O+", "e-" } # gri30_plasma.yaml O+, e- are within gri30_plasma.yaml (NASA-7 or NASA-9 polynomials)
-    _FIRST_IONIZED_SPECIES = {"O+", "C+", "O-", "C+", "C-"}  # partition functions (mu0_stat.py)
+    _GRI_SPECIES    = {"CO2", "CO", "O", "O2", "O+", "e-" } # gri30_plasma.yaml O+, e- are within gri30_plasma.yaml (NASA-7 or NASA-9 polynomials)
+    _FIRST_IONIZED_SPECIES = {"O-", "C+", "C-", "C"}  # partition functions (mu0_stat.py)
     _TWICE_IONIZED_SPECIES = {"O++", "C++"}  # partition functions (mu0_stat.py)
     mu0 = []
 

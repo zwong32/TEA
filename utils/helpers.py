@@ -38,6 +38,7 @@ def set_fig_aesthetics():
         [0, 0, 0],          # e-
         [52, 120, 31],      # C
         [0, 255, 255],      # C-
+        [150, 150, 150],      # O-
         [184, 86, 144],     # O++
         [13, 13, 13],       # C++
     ], dtype=float) / 255.0
@@ -114,13 +115,13 @@ def make_plots(T_values, Xeq, Xeq_ct, rhoarray, rho_ct, EN_balance_values, speci
     fig1, ax1 = make_single_column_figure()
     fig3, ax3 = make_single_column_figure()
 
-    df = pd.read_csv("output/" + config.TXTNAME_COMP, delim_whitespace=True)
+    df = pd.read_csv("output/" + config.TXTNAME_COMP, sep='\s+')
 
     T = df["T"]
 
     ax1.set_ylabel("Mole fraction")
     ax1.set_ylim(9e-5, 1.4)
-    ax1.set_xlim(300, 30000)
+    ax1.set_xlim(310, 30000)
     fig1.suptitle(
         config.FIGNAME_EQUILB_COMP_TITLE,
         #x=(0.12 + 0.92) / 2,
